@@ -132,18 +132,18 @@ export const deleteProject = ({projectId}) => {
 };
 
 
-export const inviteToProject = ({email, projectId}) => {
-  return async dispatch => {
-    dispatch({ type: actionTypes.INVITE_TO_PROJECT_REQUEST });
+export const inviteToProject = ({email, projectId}) =>
+   async (dispatch) => {
+    dispatch({ type: actionTypes.INVITE_TO_PROJECT_REQUEST })
     try {
-      const {data}=await api.post('/api/projects/invite', { email, projectId });
-      dispatch({ type: actionTypes.INVITE_TO_PROJECT_SUCCESS });
+      const {data}=await api.post('/api/projects/invite', { email, projectId })
       console.log("invite to project ",data);
+      dispatch({ type: actionTypes.INVITE_TO_PROJECT_SUCCESS,payload:data });
+      
     } catch (error) {
       dispatch({ type: actionTypes.INVITE_TO_PROJECT_FAILURE, error: error.message });
     }
-  };
-};
+  }
 
 // Action for accepting invitation
 export const acceptInvitation = ({invitationToken,navigate}) => {

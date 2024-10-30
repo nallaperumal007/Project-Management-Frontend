@@ -14,23 +14,25 @@ import { z } from "zod";
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/Auth/Action";
 import { inviteToProject } from "@/redux/Project/Project.Action";
+import { useParams } from "react-router-dom";
 
 const formSchema = z.object({
   email: z.string().email('Invalid email address'),
  
 });
-const InviteUserForm = ({projectId}) => {
+const InviteUserForm = () => {
   const dispatch=useDispatch();
+  const {id}=useParams();
   const form = useForm({
-    resolver: zodResolver(formSchema),
+   // resolver: zod
     defaultValues: {
       email: "",
       
     },
   });
   const onSubmit = (data) => {
-    data.projectId=projectId
-    dispatch(inviteToProject(data))
+    dispatch(inviteToProject({email:data.email,projectId:id}))
+   console.log("Create project data",data);
     
     console.log("sent invitation", data);
 

@@ -12,14 +12,10 @@ import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import SockJS from "sockjs-client";
-
-import Stomp from "stompjs";
+import { io } from "socket.io-client";
 
 const ChatBox = () => {
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-
   const dispatch = useDispatch();
   const { id } = useParams();
   const { chat, auth } = useSelector((store) => store);
@@ -59,61 +55,62 @@ const ChatBox = () => {
 
   // ---------------------------------
 
-  const [stompClient, setStompClient] = useState(null);
-  // const [messages, setMessages] = useState([]);
+  // const [stompClient, setStompClient] = useState(null);
+  // // const [messages, setMessages] = useState([]);
 
-  const onConnect = (frem) => {
-    console.log("connect frem : ", frem);
-  };
-  const onErr = (err) => {
-    console.log("error when connect ", err);
-  };
-  useEffect(() => {
-    const sock = new SockJS("http://localhost:5454/ws");
-    const stomp = Stomp.over(sock);
-    setStompClient(stomp);
+  // const onConnect = (frem) => {
+  //   console.log("connect frem : ", frem);
+  // };
+  // const onErr = (err) => {
+  //   console.log("error when connect ", err);
+  // };
+  // useEffect(() => {
+  //   const sock = new SockJS("http://localhost:5454/ws");
+  //   const stomp = Stomp.over(sock);
+  //   setStompClient(stomp);
 
-    stomp.connect({}, onConnect, onErr);
+  //   stomp.connect({}, onConnect, onErr);
 
-    // return () => {
-    //   if (stomp) {
-    //     stomp.disconnect();
-    //   }
-    // };
-  }, []);
+  //   // return () => {
+  //   //   if (stomp) {
+  //   //     stomp.disconnect();
+  //   //   }
+  //   // };
+  // }, []);
 
-  useEffect(() => {
-    if (stompClient && auth.reqUser && chat.chat) {
-      const subscription = stompClient.subscribe(
-        `/user/${chat.chat?.id}/private`,
-        onMessageRecive
-      );
+  // useEffect(() => {
+  //   if (stompClient && auth.reqUser && chat.chat) {
+  //     const subscription = stompClient.subscribe(
+  //       `/user/${chat.chat?.id}/private`,
+  //       onMessageRecive
+  //     );
 
-      return () => {
-        subscription.unsubscribe();
-      };
-    }
-  });
+  //     return () => {
+  //       subscription.unsubscribe();
+  //     };
+  //   }
+  // });
 
-  const onMessageRecive = (payload) => {
-    console.log("onMessageRecive ............. -----------", payload);
+  // const onMessageRecive = (payload) => {
+  //   console.log("onMessageRecive ............. -----------", payload);
 
-    console.log("recive message -  - - - - - - -  -", JSON.parse(payload.body));
+  //   console.log("recive message -  - - - - - - -  -", JSON.parse(payload.body));
 
-    const recievedMessage = JSON.parse(payload.body);
+  //   const recievedMessage = JSON.parse(payload.body);
 
-    dispatch(messageRecived(recievedMessage))
-    setMessages([...messages, recievedMessage]);
-  };
+  //   dispatch(messageRecived(recievedMessage))
+  //   setMessages([...messages, recievedMessage]);
+  // };
 
   const sendMessageToServer = (message) => {
-    if (stompClient && message) {
-      stompClient.send(
-        `/app/chat/${chat.chat?.id.toString()}`,
-        {},
-        JSON.stringify(message)
-      );
-    }
+    console.log(message)
+    // if (stompClient && message) {
+    //   stompClient.send(
+    //     `/app/chat/${chat.chat?.id.toString()}`,
+    //     {},
+    //     JSON.stringify(message)
+    //   );
+    // }
   };
 
   // useEffect(() => {
@@ -124,8 +121,7 @@ const ChatBox = () => {
   //   }
   // }, [messages]);
 
-
-
+  
   return (
     <div className="sticky">
       <div className="border rounded-lg">

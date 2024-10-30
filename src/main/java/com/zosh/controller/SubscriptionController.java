@@ -27,12 +27,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 
-//        @PostMapping("/create")
-//        public ResponseEntity<Subscription> createSubscription(@RequestBody Subscription subscription) {
-//            Subscription createdSubscription = subscriptionService.createSubscription(subscription);
-//            return new ResponseEntity<>(createdSubscription, HttpStatus.CREATED);
-//        }
-
         @GetMapping("/user")
         public ResponseEntity<Subscription> getUserSubscription(
                 @RequestHeader("Authorization") String jwt) throws Exception {
@@ -56,16 +50,7 @@ import org.springframework.web.bind.annotation.*;
 
         }
 
-//        @GetMapping("/isValid/{subscriptionId}")
-//        public ResponseEntity<Boolean> isValidSubscription(@PathVariable Long subscriptionId) {
-//            Subscription subscription = subscriptionService.getSubscriptionById(subscriptionId);
-//            if (subscription != null) {
-//                boolean isValid = subscriptionService.isValid(subscription);
-//                return new ResponseEntity<>(isValid, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//            }
-//        }
+
     }
 
 

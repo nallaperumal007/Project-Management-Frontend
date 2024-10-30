@@ -51,7 +51,7 @@ public class PaymentController {
 			@RequestHeader("Authorization")String jwt)
 			throws RazorpayException, UserException, ProjectException {
 		User user=userService.findUserProfileByJwt(jwt);
-		int amount = 799 * 100; // Convert to paise (INR)
+		int amount = 799 * 100;
 
 		// Adjust amount based on plan type
 		if (planType.equals("ANNUALLY")) {
@@ -107,7 +107,7 @@ public class PaymentController {
 		    }
 		
 		
-//		order_id
+
 	}
 	
 //  @GetMapping("/payments")

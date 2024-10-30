@@ -137,8 +137,9 @@ public class ProjectController {
     
     @PostMapping("/invite")
     public ResponseEntity<MessageResponse> inviteToProject(
-            @RequestBody ProjectInvitationRequest req) throws MailsException, MessagingException {
-
+            @RequestBody ProjectInvitationRequest req,
+            @RequestHeader("Authorization") String jwt) throws Exception {
+        User user=userService.findUserProfileByJwt(jwt);
         invitationService.sendInvitation(req.getEmail(), req.getProjectId());
 
             MessageResponse res=new MessageResponse();
